@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Title  from '../components/ui/Title';
 import NumberContainer from '../components/game/NumberContainer';
@@ -23,9 +23,15 @@ export default function GameScreen(props) {
 	const initialGuess = generateRandomBetween(minBoundary, maxBoundary, props.userNumber);
 	const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
+	useEffect(() => {
+		if (currentGuess === userNumber) {
+			props.onGameOver();
+		}
+	}, [currentGuess, userNumber, props.onGameOver]);
+
 	function nextGuessHandler(direction) {
 		if (minBoundary === maxBoundary) {
-			Alert.alert("Something is wrong!", 'Did you lie or accidentally give me the wrong instructions?', [{text: 'Sorry!', style: 'cancel'}]);
+			Alert.alert("Something is wrong!", 'Did you lie or accidentally give me the wrong instructions?', [{text: 'Sorry!', style: 'cancel', onPress: props.onGameOver}]);
 			return;
 		}
 
@@ -43,7 +49,6 @@ export default function GameScreen(props) {
 			<Title>Opponent's Guess</Title>
 			<NumberContainer>{currentGuess}</NumberContainer>
 			<View>
-				<Text>Higher or Lower?</Text>
 				<View>
 					<PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')} >-</PrimaryButton>
 					<PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')} >+</PrimaryButton>
