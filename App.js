@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'expo-status-bar';
 
 import StartGameScreen from './screens/StartGameScreen';
 import GameOverScreen from './screens/GameOverScreen';
@@ -50,11 +51,15 @@ export default function App() {
   }
 
   return (
+    <>
+    <StatusBar style="light" /> {//The time, the battery, the wifi signal of the device
+    }
     <LinearGradient colors={[Colors.primary700, Colors.accent500]} style={styles.rootScreen}>
       <ImageBackground source={require('./assets/images/dice.png')} resize="cover" style={styles.rootScreen} imageStyle={styles.backgroundImage} >
         <SafeAreaView style={styles.rootScreen} >{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
+    </>
   );
 }
 
