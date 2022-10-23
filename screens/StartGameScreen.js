@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextInput, View, StyleSheet, Alert } from 'react-native';
+import { TextInput, View, StyleSheet, Alert, useWindowDimensions, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
@@ -10,6 +10,7 @@ import Colors from '../constants/color';
 
 export default function StartGameScreen (props) {
 	const [enteredNumber, setEnteredNumber] = useState('');
+	const {width, height} = useWindowDimensions(); //for dynamic styling
 
 	function numberInputHandler(enteredNumber) {
 		setEnteredNumber(enteredNumber);
@@ -28,25 +29,31 @@ export default function StartGameScreen (props) {
 		props.onPickNumber(chosenNumber);
 	}
 
+	const marginTop = height < 380 ? 30 : 100;
+
 	return (
-		<View style={styles.rootContainer} >
-			<Title>Guess My Number</Title>
-			<Card>
-				<InstructionText>Enter a number</InstructionText>
-				<TextInput style={styles.numberInput} maxLength={2} keyboardType="number-pad" autoCapitalize="none" autoCorrect={false}  onChangeText={numberInputHandler} value={enteredNumber} />
-				<View style={styles.buttonsContainer} >
-					<PrimaryButton onPress={resetInputHandler} >Reset</PrimaryButton>
-					<PrimaryButton onPress={confirmInputHandler} >Confirm</PrimaryButton>
+		<ScrollView style={{flex: 1}}>
+			<KeyboardAvoidingView style={{flex: 1}} behavior="position" > {//behavior="height/padding/position"
+			}
+				<View style={[styles.rootContainer, {marginTop: marginTop}]} >
+					<Title>Guess My Number</Title>
+					<Card>
+						<InstructionText>Enter a number</InstructionText>
+						<TextInput style={styles.numberInput} maxLength={2} keyboardType="number-pad" autoCapitalize="none" autoCorrect={false}  onChangeText={numberInputHandler} value={enteredNumber} />
+						<View style={styles.buttonsContainer} >
+							<PrimaryButton onPress={resetInputHandler} >Reset</PrimaryButton>
+							<PrimaryButton onPress={confirmInputHandler} >Confirm</PrimaryButton>
+						</View>
+					</Card>
 				</View>
-			</Card>
-		</View>
+			</KeyboardAvoidingView>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	rootContainer: {
 		flex: 1,
-		marginTop: 100,
 		alignItems: 'center',
 	},
 

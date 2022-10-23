@@ -3,7 +3,7 @@
     "name": "Guess-Number-Mobile-App",
     "slug": "Guess-Number-Mobile-App",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
